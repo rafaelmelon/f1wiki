@@ -1,15 +1,27 @@
 {
   "name": "f1wiki",
+  "description": "Formula One Wiki",
   "version": "0.0.1",
+  "author": "Rafael Melón | User-centered Front-end Developer <info@rafaelmelon.com> (https://www.rafaelmelon.com/)",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rafaelmelon/f1wiki.git"
+  },
+  "keywords": [
+    "vue3",
+    "vuex",
+    "vite"
+  ],
   "scripts": {
     "dev": "vite",
     "build": "vite build"
   },
   "dependencies": {
-    "vue": "^3.0.2"
+    "vue": "^3.0.2",
+    "vuex": "^4.0.0-rc.1"
   },
   "devDependencies": {
-    "vite": "^1.0.0-rc.8",
-    "@vue/compiler-sfc": "^3.0.2"
+    "@vue/compiler-sfc": "^3.0.2",
+    "vite": "^1.0.0-rc.8"
   }
 }
