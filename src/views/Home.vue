@@ -12,13 +12,13 @@
 </template>
 
 <script>
-import { ROUTES } from "/src/constants";
+import { ROUTES_HOME } from "/src/constants";
 
 export default {
   name: "Home",
   data() {
     return {
-      routes: ROUTES,
+      routes: ROUTES_HOME,
     };
   },
 };

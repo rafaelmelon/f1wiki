@@ -3,6 +3,7 @@ import mutations from "../mutations/seasons";
 
 const defaultState = {
   all: [],
+  season: {},
 };
 
 export const seasons = {
