@@ -1,17 +1,25 @@
 <template>
   <div id="app">
     <h1>Home Page</h1>
-    <HelloWorld msg="Hello Vue 3.0 + Vite" />
+    <div id="nav">
+      <ul>
+        <li v-for="route of routes" :key="route.index">
+          <router-link :to="route.path">{{ route.name }}</router-link>
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
 
 <script>
-import HelloWorld from "/src/components/HelloWorld.vue";
+import { ROUTES } from "/src/constants";
 
 export default {
   name: "Home",
-  components: {
-    HelloWorld,
+  data() {
+    return {
+      routes: ROUTES,
+    };
   },
 };
 </script>

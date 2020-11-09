@@ -1,20 +1,11 @@
 import { createStore, createLogger } from "vuex";
 
-import { DEV } from '/src/utils'
+import { DEV } from "/src/utils";
+import seasons from './modules/seasons'
 
 const store = createStore({
-  state() {
-    return {
-      count: 0,
-    };
-  },
-  mutations: {
-    INCREMENT(state) {
-      state.count++;
-    },
-    DECREMENT(state) {
-      state.count--;
-    },
+  modules: {
+    seasons,
   },
   plugins: DEV ? [createLogger()] : [],
 });
