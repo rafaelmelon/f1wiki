@@ -1,5 +1,7 @@
 import { createStore, createLogger } from "vuex";
 
+import { DEV } from '/src/utils'
+
 const store = createStore({
   state() {
     return {
@@ -14,7 +16,7 @@ const store = createStore({
       state.count--;
     },
   },
-  plugins: [createLogger()],
+  plugins: DEV ? [createLogger()] : [],
 });
 
 export default store;
