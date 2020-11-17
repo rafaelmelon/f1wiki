@@ -1,17 +1,11 @@
 <template>
-  <Navigation />
-  <div id="app">
-    <h1>Drivers Page</h1>
-  </div>
+  <header class="header">
+    <h1>Drivers</h1>
+  </header>
 </template>
 
 <script>
-import Navigation from "/src/components/Navigation.vue";
-
 export default {
   name: "Drivers",
-  components: {
-    Navigation,
-  },
 };
 </script>

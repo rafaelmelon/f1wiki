@@ -1,7 +1,8 @@
 <template>
-  <Navigation />
-  <div id="app">
-    <h1>Seasons Page</h1>
+  <header class="header">
+    <h1>Seasons</h1>
+  </header>
+  <section class="row">
     <button @click="localIncrement">Local Increment: {{ localCount }}</button>
     <ul>
       <li v-for="item of seasons" :key="item.season">
@@ -10,22 +11,15 @@
         }}</router-link>
       </li>
     </ul>
-  </div>
+  </section>
 </template>
 
 <script>
 import { ref } from "vue";
 import { useStore, mapState } from "vuex";
 
-import Navigation from "/src/components/Navigation.vue";
-import Season from "./Season.vue";
-
 export default {
   name: "Seasons",
-  components: {
-    Navigation,
-    Season,
-  },
   computed: mapState({
     seasons: (state) => state.seasons.all,
   }),

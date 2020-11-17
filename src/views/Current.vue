@@ -1,22 +1,25 @@
 <template>
-  <Navigation />
-  <div id="app">
-    <h1>Current Season Page</h1>
-    <li v-for="item of currentSeason" :key="item.date">
-      <p>{{ item.raceName }}</p>
-    </li>
-  </div>
+  <header class="header">
+    <h1>Current Season</h1>
+  </header>
+  <section class="row">
+    <ul>
+      <li v-for="item of currentSeason" :key="item.date">
+        <Race :race="item" />
+      </li>
+    </ul>
+  </section>
 </template>
 
 <script>
 import { useStore, mapState } from "vuex";
 
-import Navigation from "/src/components/Navigation.vue";
+import Race from "/src/components/Race.vue";
 
 export default {
-  name: "Season",
+  name: "Current",
   components: {
-    Navigation,
+    Race,
   },
   computed: mapState({
     currentSeason: (state) => state.seasons.currentSeason,

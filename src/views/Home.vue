@@ -1,21 +1,25 @@
 <template>
-  <div id="app">
-    <h1>Home Page</h1>
-    <div id="nav">
-      <ul>
-        <li v-for="route of routes" :key="route.index">
-          <router-link :to="route.path">{{ route.name }}</router-link>
-        </li>
-      </ul>
-    </div>
-  </div>
+  <header class="header">
+    <h1>F1 WIKI</h1>
+  </header>
+  <section class="row">
+    <ul>
+      <li v-for="route of routes" :key="route.index">
+        <ButtonLink :path="route.path" :text="route.name" />
+      </li>
+    </ul>
+  </section>
 </template>
 
 <script>
+import ButtonLink from "/src/components/ButtonLink.vue";
 import { ROUTES_HOME } from "/src/constants";
 
 export default {
   name: "Home",
+  components: {
+    ButtonLink,
+  },
   data() {
     return {
       routes: ROUTES_HOME,
@@ -23,3 +27,5 @@ export default {
   },
 };
 </script>
+
+<style scoped></style>
