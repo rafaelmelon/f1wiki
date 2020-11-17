@@ -18,13 +18,13 @@ import { ref } from "vue";
 import { useStore, mapState } from "vuex";
 
 import Navigation from "/src/components/Navigation.vue";
-import SeasonList from "/src/components/SeasonList.vue";
+import Season from "./Season.vue";
 
 export default {
   name: "Seasons",
   components: {
     Navigation,
-    SeasonList,
+    Season,
   },
   computed: mapState({
     seasons: (state) => state.seasons.all,

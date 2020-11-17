@@ -4,6 +4,7 @@ import mutations from "../mutations/seasons";
 const defaultState = {
   all: [],
   season: {},
+  currentSeason: [],
 };
 
 export const seasons = {

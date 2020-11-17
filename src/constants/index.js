@@ -1,5 +1,9 @@
 export const ROUTES_HOME = [
   {
+    path: "/current",
+    name: "Current Season",
+  },
+  {
     path: "/seasons",
     name: "Seasons",
   },

@@ -1,6 +1,7 @@
 import { createWebHistory, createRouter } from "vue-router";
 
 import Home from "/src/views/Home.vue";
+import CurrentSeason from "/src/views/CurrentSeason.vue";
 import Seasons from "/src/views/Seasons.vue";
 import Season from "/src/views/Season.vue";
 import Drivers from "/src/views/Drivers.vue";
@@ -10,6 +11,11 @@ const routes = [
     path: "/",
     name: "Home",
     component: Home,
+  },
+  {
+    path: "/current",
+    name: "Current Season",
+    component: CurrentSeason,
   },
   {
     path: "/seasons",
