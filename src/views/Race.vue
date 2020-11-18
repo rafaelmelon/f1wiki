@@ -1,23 +1,46 @@
 <template>
-  <header class="header">
-    <h1>Race</h1>
-  </header>
-  <section class="row">
-    <ul>
-      <li v-for="item of raceResults" :key="item.number">
-        <p>{{ item.number }}</p>
-      </li>
-    </ul>
-  </section>
+  <span>
+    <header class="header">
+      <h1>{{ race.raceName }}</h1>
+    </header>
+    <section class="column">
+      <div>
+        <p>{{ race.date }}</p>
+        <p>{{ race.raceName }}</p>
+        <p>{{ race.round }}</p>
+        <p>{{ race.season }}</p>
+        <p>{{ race.time }}</p>
+        <p>{{ race.url }}</p>
+      </div>
+      <div>
+        <Table
+          :data="race.Results"
+          :columns="gridColumns"
+          :filter-key="searchQuery"
+        />
+      </div>
+    </section>
+  </span>
 </template>
 
 <script>
 import { useStore, mapState } from "vuex";
 
+import Table from "/src/components/Table.vue";
+
 export default {
   name: "Race",
+  components: {
+    Table,
+  },
+  data() {
+    return {
+      searchQuery: "",
+      gridColumns: ["number", "grid", "laps", "points", "position", "status"],
+    };
+  },
   computed: mapState({
-    raceResults: (state) => state.races.raceResults.Results,
+    race: (state) => state.races.race,
   }),
   created() {
     const store = useStore();

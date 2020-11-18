@@ -2,7 +2,7 @@ import actions from "../actions/races";
 import mutations from "../mutations/races";
 
 const defaultState = {
-  raceResults: {},
+  race: {},
 };
 
 export const races = {
@@ -10,8 +10,8 @@ export const races = {
   mutations,
   actions,
   getters: {
-    raceResults: (state) => {
-      return state.raceResults;
+    race: (state) => {
+      return state.race;
     },
   },
 };

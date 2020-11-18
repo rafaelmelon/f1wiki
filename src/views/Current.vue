@@ -3,23 +3,28 @@
     <h1>Current Season</h1>
   </header>
   <section class="row">
-    <ul>
-      <li v-for="item of currentSeason" :key="item.date">
-        <Race :race="item" />
-      </li>
-    </ul>
+    <Table
+      :data="currentSeason"
+      :columns="gridColumns"
+      :filter-key="searchQuery"
+    />
   </section>
 </template>
 
 <script>
 import { useStore, mapState } from "vuex";
 
-import Race from "/src/components/Race.vue";
+import Table from "/src/components/Table.vue";
 
 export default {
   name: "Current",
   components: {
-    Race,
+    Table,
+  },
+  data() {
+    return {
+      gridColumns: ["date", "raceName", "round", "season", "time", "url"],
+    };
   },
   computed: mapState({
     currentSeason: (state) => state.seasons.currentSeason,
