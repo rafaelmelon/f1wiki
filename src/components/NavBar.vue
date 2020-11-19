@@ -8,7 +8,7 @@
     <div class="nav__routes">
       <ul>
         <li v-for="route of routes" :key="route.index">
-          <router-link :to="route.path">{{ route.name }}</router-link>
+          <ButtonLink :path="route.path" :text="route.name" />
         </li>
       </ul>
     </div>
@@ -17,9 +17,13 @@
 
 <script>
 import { ROUTES_HOME } from "/src/constants";
+import ButtonLink from "/src/components/ButtonLink.vue";
 
 export default {
   name: "NavBar",
+  components: {
+    ButtonLink,
+  },
   data() {
     return {
       routes: ROUTES_HOME,
@@ -42,10 +46,5 @@ export default {
 .nav__routes ul {
   flex-direction: row;
   display: flex;
-}
-.nav__routes ul a {
-  padding: 5px;
-  margin: 5px;
-  border: 1px solid black;
 }
 </style>

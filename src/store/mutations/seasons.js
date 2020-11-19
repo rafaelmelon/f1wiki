@@ -8,7 +8,7 @@ export const seasons = {
     return state;
   },
   SEASONS_GET_SEASON_RESPONSE(state, payload) {
-    state.season = payload.MRData.SeasonTable.Seasons[0];
+    state.season = payload.MRData.RaceTable.Races;
     return state;
   },
 };

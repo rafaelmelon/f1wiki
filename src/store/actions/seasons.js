@@ -15,7 +15,7 @@ export const seasons = {
     commit("SEASONS_GET_RESPONSE", result);
   },
   async SEASONS_GET_SEASON({ commit }, payload) {
-    const response = await fetch(`${API_F1}${payload}/seasons.json`);
+    const response = await fetch(`${API_F1}${payload}.json`);
     const result = await response.json();
 
     commit("SEASONS_GET_SEASON_RESPONSE", result);

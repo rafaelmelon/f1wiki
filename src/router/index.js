@@ -3,7 +3,7 @@ import { createWebHistory, createRouter } from "vue-router";
 import Home from "/src/views/Home.vue";
 import Current from "/src/views/Current.vue";
 import Seasons from "/src/views/Seasons.vue";
-import Season from "/src/components/Season.vue";
+import Season from "/src/views/Season.vue";
 import Drivers from "/src/views/Drivers.vue";
 import Race from "/src/views/Race.vue";
 

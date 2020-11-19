@@ -21,11 +21,12 @@ export default {
 <style scoped>
 .link {
   display: flex;
-  justify-content: space-between;
   align-items: center;
   padding: 10px;
-  border: 1px solid black;
-  margin: 10px;
+  border: 1px solid #15151e;
+  color: #15151e;
+  margin: 5px;
   border-radius: 5px;
+  justify-content: center;
 }
 </style>

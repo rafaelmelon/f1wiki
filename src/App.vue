@@ -53,7 +53,7 @@ a {
   align-items: center;
   justify-content: center;
   padding: 50px;
-  background-color: lightcoral;
+  background-color: #ff1800;
   color: white;
 }
 
@@ -69,7 +69,7 @@ a {
 body {
   font-family: Helvetica Neue, Arial, sans-serif;
   font-size: 14px;
-  color: #444;
+  color: #15151e;
 }
 
 table {
@@ -77,8 +77,8 @@ table {
 }
 
 th {
-  background-color: #42b983;
-  color: rgba(255, 255, 255, 0.66);
+  background-color: #15151e;
+  color: white;
   cursor: pointer;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -123,5 +123,52 @@ th.active .arrow {
   border-left: 4px solid transparent;
   border-right: 4px solid transparent;
   border-top: 4px solid #fff;
+}
+
+@media (min-width: 1200px) {
+  .container,
+  .container-lg,
+  .container-md,
+  .container-sm,
+  .container-xl {
+    max-width: 1140px;
+  }
+}
+
+@media (min-width: 992px) {
+  .container,
+  .container-lg,
+  .container-md,
+  .container-sm {
+    max-width: 960px;
+  }
+}
+
+@media (min-width: 768px) {
+  .container,
+  .container-md,
+  .container-sm {
+    max-width: 720px;
+  }
+}
+
+@media (min-width: 576px) {
+  .container,
+  .container-sm {
+    max-width: 540px;
+  }
+}
+
+.container,
+.container-fluid,
+.container-lg,
+.container-md,
+.container-sm,
+.container-xl {
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
 }
 </style>

@@ -1,36 +1,35 @@
 <template>
   <span>
     <header class="header">
-      <h1>Seasons</h1>
+      <h1>Season {{ $route.params.season }}</h1>
     </header>
     <section class="container-lg">
-      <TableSeason :data="seasons" :columns="gridColumns" />
+      <TableSeason :data="season" :columns="gridColumns" />
     </section>
   </span>
 </template>
 
 <script>
-import { ref } from "vue";
 import { useStore, mapState } from "vuex";
 
 import TableSeason from "/src/components/TableSeason.vue";
 
 export default {
-  name: "Seasons",
+  name: "Season",
   components: {
     TableSeason,
   },
   data() {
     return {
-      gridColumns: ["season", "url"],
+      gridColumns: ["round", "raceName", "date", "time", "url"],
     };
   },
   computed: mapState({
-    seasons: (state) => state.seasons.all,
+    season: (state) => state.seasons.season,
   }),
   created() {
     const store = useStore();
-    store.dispatch("SEASONS_GET");
+    store.dispatch("SEASONS_GET_SEASON", this.$route.params.season);
   },
 };
 </script>

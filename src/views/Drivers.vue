@@ -1,7 +1,9 @@
 <template>
-  <header class="header">
-    <h1>Drivers</h1>
-  </header>
+  <span>
+    <header class="header">
+      <h1>Drivers</h1>
+    </header>
+  </span>
 </template>
 
 <script>

@@ -1,29 +1,27 @@
 <template>
-  <header class="header">
-    <h1>Current Season</h1>
-  </header>
-  <section class="row">
-    <Table
-      :data="currentSeason"
-      :columns="gridColumns"
-      :filter-key="searchQuery"
-    />
-  </section>
+  <span>
+    <header class="header">
+      <h1>Current Season</h1>
+    </header>
+    <section class="container-lg">
+      <TableSeason :data="currentSeason" :columns="gridColumns" />
+    </section>
+  </span>
 </template>
 
 <script>
 import { useStore, mapState } from "vuex";
 
-import Table from "/src/components/Table.vue";
+import TableSeason from "/src/components/TableSeason.vue";
 
 export default {
   name: "Current",
   components: {
-    Table,
+    TableSeason,
   },
   data() {
     return {
-      gridColumns: ["date", "raceName", "round", "season", "time", "url"],
+      gridColumns: ["round", "raceName", "date", "time", "url"],
     };
   },
   computed: mapState({

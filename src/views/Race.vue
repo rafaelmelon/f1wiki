@@ -1,7 +1,7 @@
 <template>
   <span>
     <header class="header">
-      <h1>{{ race.raceName }}</h1>
+      <h1>{{ race.raceName }} {{ race.season }}</h1>
     </header>
     <section class="column">
       <div>
@@ -13,11 +13,7 @@
         <p>{{ race.url }}</p>
       </div>
       <div>
-        <Table
-          :data="race.Results"
-          :columns="gridColumns"
-          :filter-key="searchQuery"
-        />
+        <Table :data="race.Results" :columns="gridColumns" />
       </div>
     </section>
   </span>
@@ -35,7 +31,6 @@ export default {
   },
   data() {
     return {
-      searchQuery: "",
       gridColumns: ["number", "grid", "laps", "points", "position", "status"],
     };
   },
