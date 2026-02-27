@@ -8,12 +8,41 @@ import type {
 } from "./types";
 
 const BASE = "https://api.jolpi.ca/ergast/f1";
+const CACHE_TTL = 5 * 60 * 1000;
+const REQUEST_DELAY = 300;
+
+const cache = new Map<string, { data: unknown; ts: number }>();
+
+let queue: Promise<void> = Promise.resolve();
+
+function enqueue<T>(fn: () => Promise<T>): Promise<T> {
+  return new Promise<T>((resolve, reject) => {
+    queue = queue.then(async () => {
+      await new Promise((r) => setTimeout(r, REQUEST_DELAY));
+      try {
+        resolve(await fn());
+      } catch (e) {
+        reject(e);
+      }
+    });
+  });
+}
 
 async function fetchApi<T>(path: string): Promise<T> {
-  const res = await fetch(`${BASE}${path}`);
-  if (!res.ok) throw new Error(`API error: ${res.status}`);
-  const json = await res.json();
-  return json.MRData as T;
+  const cached = cache.get(path);
+  if (cached && Date.now() - cached.ts < CACHE_TTL) {
+    return cached.data as T;
+  }
+
+  const result = await enqueue(async () => {
+    const res = await fetch(`${BASE}${path}`);
+    if (!res.ok) throw new Error(`API error: ${res.status}`);
+    const json = await res.json();
+    return json.MRData as T;
+  });
+
+  cache.set(path, { data: result, ts: Date.now() });
+  return result;
 }
 
 export async function getSeasons(): Promise<Season[]> {
@@ -93,4 +122,34 @@ export async function getDriverSeasons(driverId: string): Promise<Season[]> {
     `/drivers/${driverId}/seasons.json`
   );
   return data.SeasonTable.Seasons;
+}
+
+export interface DriverStats {
+  races: number;
+  wins: number;
+  podiums: number;
+  seasons: number;
+}
+
+export async function getDriverStats(driverId: string): Promise<DriverStats> {
+  const [racesData, winsData, p2Data, p3Data, seasonsData] = await Promise.all([
+    fetchApi<{ total: string }>(`/drivers/${driverId}/results.json?limit=0`),
+    fetchApi<{ total: string }>(`/drivers/${driverId}/results/1.json?limit=0`),
+    fetchApi<{ total: string }>(`/drivers/${driverId}/results/2.json?limit=0`),
+    fetchApi<{ total: string }>(`/drivers/${driverId}/results/3.json?limit=0`),
+    fetchApi<{ SeasonTable: { Seasons: Season[] } }>(
+      `/drivers/${driverId}/seasons.json`
+    ),
+  ]);
+
+  const wins = parseInt(winsData.total, 10);
+  const p2 = parseInt(p2Data.total, 10);
+  const p3 = parseInt(p3Data.total, 10);
+
+  return {
+    races: parseInt(racesData.total, 10),
+    wins,
+    podiums: wins + p2 + p3,
+    seasons: seasonsData.SeasonTable.Seasons.length,
+  };
 }

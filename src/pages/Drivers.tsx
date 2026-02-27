@@ -5,6 +5,7 @@ import type { Driver } from "../lib/types";
 import { useFetch } from "../lib/useFetch";
 import Loader from "../components/Loader";
 import ErrorMessage from "../components/ErrorMessage";
+import PinButton from "../components/PinButton";
 
 const PAGE_SIZE = 50;
 
@@ -55,6 +56,7 @@ export default function Drivers() {
                   <th className="px-3 py-2">Nationality</th>
                   <th className="px-3 py-2 hidden sm:table-cell">DOB</th>
                   <th className="px-3 py-2 text-right hidden sm:table-cell">Number</th>
+                  <th className="px-3 py-2 text-right w-24"></th>
                 </tr>
               </thead>
               <tbody>
@@ -77,6 +79,17 @@ export default function Drivers() {
                     </td>
                     <td className="px-3 py-2 text-right text-f1-text-muted hidden sm:table-cell">
                       {d.permanentNumber ?? "-"}
+                    </td>
+                    <td className="px-3 py-2 text-right">
+                      <PinButton
+                        driver={{
+                          driverId: d.driverId,
+                          givenName: d.givenName,
+                          familyName: d.familyName,
+                          code: d.code,
+                          nationality: d.nationality,
+                        }}
+                      />
                     </td>
                   </tr>
                 ))}

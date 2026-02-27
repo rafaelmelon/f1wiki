@@ -1,9 +1,20 @@
 import { useParams, Link } from "react-router-dom";
-import { getDriver, getDriverSeasons } from "../lib/api";
+import { getDriver, getDriverSeasons, getDriverStats } from "../lib/api";
 import type { Driver as DriverType, Season } from "../lib/types";
+import type { DriverStats } from "../lib/api";
 import { useFetch } from "../lib/useFetch";
 import Loader from "../components/Loader";
 import ErrorMessage from "../components/ErrorMessage";
+import PinButton from "../components/PinButton";
+
+function StatCard({ label, value }: { label: string; value: number }) {
+  return (
+    <div className="rounded-lg border border-f1-border bg-f1-surface px-4 py-3 text-center">
+      <p className="text-2xl font-bold">{value}</p>
+      <p className="text-xs text-f1-text-muted">{label}</p>
+    </div>
+  );
+}
 
 export default function Driver() {
   const { driverId } = useParams<{ driverId: string }>();
@@ -14,6 +25,10 @@ export default function Driver() {
   );
   const { data: seasons, loading: sl, error: se } = useFetch<Season[]>(
     () => getDriverSeasons(driverId!),
+    [driverId]
+  );
+  const { data: stats, loading: stl } = useFetch<DriverStats>(
+    () => getDriverStats(driverId!),
     [driverId]
   );
 
@@ -36,36 +51,66 @@ export default function Driver() {
 
       {!loading && !error && driver && (
         <>
-          <div className="mb-8">
-            <h1 className="text-2xl font-bold">
-              {driver.givenName} {driver.familyName}
-            </h1>
-            <div className="mt-2 flex flex-wrap gap-3 text-sm text-f1-text-muted">
-              <span>{driver.nationality}</span>
-              <span>&middot;</span>
-              <span>Born {driver.dateOfBirth}</span>
-              {driver.permanentNumber && (
-                <>
-                  <span>&middot;</span>
-                  <span>#{driver.permanentNumber}</span>
-                </>
-              )}
-              {driver.code && (
-                <>
-                  <span>&middot;</span>
-                  <span>{driver.code}</span>
-                </>
-              )}
+          <div className="mb-6 flex items-start justify-between gap-4">
+            <div>
+              <h1 className="text-2xl font-bold">
+                {driver.givenName} {driver.familyName}
+              </h1>
+              <div className="mt-2 flex flex-wrap gap-3 text-sm text-f1-text-muted">
+                <span>{driver.nationality}</span>
+                <span>&middot;</span>
+                <span>Born {driver.dateOfBirth}</span>
+                {driver.permanentNumber && (
+                  <>
+                    <span>&middot;</span>
+                    <span>#{driver.permanentNumber}</span>
+                  </>
+                )}
+                {driver.code && (
+                  <>
+                    <span>&middot;</span>
+                    <span>{driver.code}</span>
+                  </>
+                )}
+              </div>
+              <a
+                href={driver.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-2 inline-block text-sm text-f1-red hover:underline"
+              >
+                Wikipedia &rarr;
+              </a>
             </div>
-            <a
-              href={driver.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-2 inline-block text-sm text-f1-red hover:underline"
-            >
-              Wikipedia &rarr;
-            </a>
+            <PinButton
+              driver={{
+                driverId: driver.driverId,
+                givenName: driver.givenName,
+                familyName: driver.familyName,
+                code: driver.code,
+                nationality: driver.nationality,
+              }}
+            />
           </div>
+
+          {stats && !stl && (
+            <div className="mb-8 grid grid-cols-2 gap-3 sm:grid-cols-4">
+              <StatCard label="Races" value={stats.races} />
+              <StatCard label="Wins" value={stats.wins} />
+              <StatCard label="Podiums" value={stats.podiums} />
+              <StatCard label="Seasons" value={stats.seasons} />
+            </div>
+          )}
+          {stl && (
+            <div className="mb-8 grid grid-cols-2 gap-3 sm:grid-cols-4">
+              {[...Array(4)].map((_, i) => (
+                <div
+                  key={i}
+                  className="h-[72px] animate-pulse rounded-lg border border-f1-border bg-f1-surface"
+                />
+              ))}
+            </div>
+          )}
 
           {seasons && seasons.length > 0 && (
             <section>
