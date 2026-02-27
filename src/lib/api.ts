@@ -5,6 +5,7 @@ import type {
   DriverStanding,
   ConstructorStanding,
   Driver,
+  Circuit,
 } from "./types";
 
 const BASE = "https://api.jolpi.ca/ergast/f1";
@@ -108,6 +109,57 @@ export async function getDrivers(
     drivers: data.DriverTable.Drivers,
     total: parseInt(data.total, 10),
   };
+}
+
+const API_PAGE_LIMIT = 100;
+
+export async function getAllDrivers(): Promise<Driver[]> {
+  const first = await fetchApi<{
+    total: string;
+    DriverTable: { Drivers: Driver[] };
+  }>(`/drivers.json?limit=${API_PAGE_LIMIT}&offset=0`);
+
+  const total = parseInt(first.total, 10);
+  const drivers = [...first.DriverTable.Drivers];
+
+  const remaining = Math.ceil((total - API_PAGE_LIMIT) / API_PAGE_LIMIT);
+  for (let i = 1; i <= remaining; i++) {
+    const offset = i * API_PAGE_LIMIT;
+    const page = await fetchApi<{
+      DriverTable: { Drivers: Driver[] };
+    }>(`/drivers.json?limit=${API_PAGE_LIMIT}&offset=${offset}`);
+    drivers.push(...page.DriverTable.Drivers);
+  }
+
+  return drivers;
+}
+
+export async function getAllCircuits(): Promise<Circuit[]> {
+  const data = await fetchApi<{
+    CircuitTable: { Circuits: Circuit[] };
+  }>("/circuits.json?limit=100&offset=0");
+  return data.CircuitTable.Circuits;
+}
+
+export async function getCurrentCircuitIds(): Promise<Set<string>> {
+  const data = await fetchApi<{ CircuitTable: { Circuits: Circuit[] } }>(
+    "/current/circuits.json"
+  );
+  return new Set(data.CircuitTable.Circuits.map((c) => c.circuitId));
+}
+
+export async function getCircuitSeasons(circuitId: string): Promise<Season[]> {
+  const data = await fetchApi<{
+    total: string;
+    RaceTable: { Races: { season: string; url: string }[] };
+  }>(`/circuits/${circuitId}/races.json?limit=100`);
+  const seasonsMap = new Map<string, string>();
+  for (const r of data.RaceTable.Races) {
+    seasonsMap.set(r.season, r.url);
+  }
+  return [...seasonsMap.entries()]
+    .map(([season, url]) => ({ season, url }))
+    .sort((a, b) => a.season.localeCompare(b.season));
 }
 
 export async function getDriver(driverId: string): Promise<Driver | null> {
