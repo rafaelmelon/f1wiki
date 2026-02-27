@@ -1,7 +1,12 @@
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+@import "tailwindcss";
+
+@theme {
+  --color-f1-red: #E10600;
+  --color-f1-red-dark: #B30500;
+  --color-f1-bg: #111111;
+  --color-f1-surface: #1A1A1A;
+  --color-f1-surface-hover: #242424;
+  --color-f1-border: #333333;
+  --color-f1-text: #E5E5E5;
+  --color-f1-text-muted: #999999;
 }
