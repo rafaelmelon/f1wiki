@@ -6,6 +6,7 @@ export interface PinnedDriver {
   familyName: string;
   code?: string;
   nationality: string;
+  url?: string;
 }
 
 export function getPinnedDrivers(): PinnedDriver[] {

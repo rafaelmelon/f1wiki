@@ -226,6 +226,7 @@ export default function Drivers() {
                           familyName: d.familyName,
                           code: d.code,
                           nationality: d.nationality,
+                          url: d.url,
                         }}
                       />
                     </td>

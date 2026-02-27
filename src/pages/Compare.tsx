@@ -5,6 +5,7 @@ import type { DriverStats } from "../lib/api";
 import { getPinnedDrivers, unpinDriver, type PinnedDriver } from "../lib/favorites";
 import Loader from "../components/Loader";
 import ErrorMessage from "../components/ErrorMessage";
+import DriverPhoto from "../components/DriverPhoto";
 
 interface DriverWithStats extends PinnedDriver {
   stats: DriverStats | null;
@@ -96,18 +97,29 @@ export default function Compare() {
             <tr className="border-b border-f1-border text-left text-f1-text-muted">
               <th className="px-3 py-2 w-28"></th>
               {drivers.map((d) => (
-                <th key={d.driverId} className="px-3 py-2 text-center">
-                  <Link
-                    to={`/driver/${d.driverId}`}
-                    className="text-f1-text hover:text-f1-red transition-colors font-bold"
-                  >
-                    {d.givenName} {d.familyName}
-                  </Link>
-                  {d.code && (
-                    <span className="ml-1 text-f1-text-muted font-normal">
-                      ({d.code})
-                    </span>
-                  )}
+                <th key={d.driverId} className="px-4 py-4 text-center">
+                  <div className="flex flex-col items-center gap-2">
+                    {d.url && (
+                      <DriverPhoto
+                        wikipediaUrl={d.url}
+                        name={`${d.givenName} ${d.familyName}`}
+                        size="lg"
+                      />
+                    )}
+                    <div>
+                      <Link
+                        to={`/driver/${d.driverId}`}
+                        className="text-f1-text hover:text-f1-red transition-colors font-bold"
+                      >
+                        {d.givenName} {d.familyName}
+                      </Link>
+                      {d.code && (
+                        <span className="ml-1 text-f1-text-muted font-normal">
+                          ({d.code})
+                        </span>
+                      )}
+                    </div>
+                  </div>
                 </th>
               ))}
             </tr>

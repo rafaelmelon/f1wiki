@@ -8,6 +8,7 @@ import Loader from "../components/Loader";
 import ErrorMessage from "../components/ErrorMessage";
 import PinButton from "../components/PinButton";
 import DriverLabels from "../components/DriverLabels";
+import DriverPhoto from "../components/DriverPhoto";
 
 function StatCard({ label, value }: { label: string; value: number }) {
   return (
@@ -57,7 +58,13 @@ export default function Driver() {
       {!loading && !error && driver && (
         <>
           <div className="mb-6 flex items-start justify-between gap-4">
-            <div>
+            <div className="flex gap-4">
+              <DriverPhoto
+                wikipediaUrl={driver.url}
+                name={`${driver.givenName} ${driver.familyName}`}
+                size="lg"
+              />
+              <div>
               <h1 className="text-2xl font-bold">
                 {driver.givenName} {driver.familyName}
               </h1>
@@ -98,6 +105,7 @@ export default function Driver() {
               >
                 Wikipedia &rarr;
               </a>
+              </div>
             </div>
             <PinButton
               driver={{
@@ -106,6 +114,7 @@ export default function Driver() {
                 familyName: driver.familyName,
                 code: driver.code,
                 nationality: driver.nationality,
+                url: driver.url,
               }}
             />
           </div>
