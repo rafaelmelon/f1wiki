@@ -1,4 +1,3 @@
-import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./index.css";
@@ -9,20 +8,24 @@ import Season from "./pages/Season";
 import Race from "./pages/Race";
 import Drivers from "./pages/Drivers";
 import Driver from "./pages/Driver";
+import Compare from "./pages/Compare";
+import Greatest from "./pages/Greatest";
+import Circuits from "./pages/Circuits";
 
 createRoot(document.getElementById("root")!).render(
-  <StrictMode>
-    <BrowserRouter>
-      <Routes>
-        <Route element={<App />}>
-          <Route index element={<Home />} />
-          <Route path="seasons" element={<Seasons />} />
-          <Route path="season/:year" element={<Season />} />
-          <Route path="season/:year/race/:round" element={<Race />} />
-          <Route path="drivers" element={<Drivers />} />
-          <Route path="driver/:driverId" element={<Driver />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
-  </StrictMode>
+  <BrowserRouter>
+    <Routes>
+      <Route element={<App />}>
+        <Route index element={<Home />} />
+        <Route path="seasons" element={<Seasons />} />
+        <Route path="season/:year" element={<Season />} />
+        <Route path="season/:year/race/:round" element={<Race />} />
+        <Route path="drivers" element={<Drivers />} />
+        <Route path="driver/:driverId" element={<Driver />} />
+        <Route path="greatest" element={<Greatest />} />
+        <Route path="circuits" element={<Circuits />} />
+        <Route path="compare" element={<Compare />} />
+      </Route>
+    </Routes>
+  </BrowserRouter>
 );
