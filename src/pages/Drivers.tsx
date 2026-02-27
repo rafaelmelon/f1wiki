@@ -56,6 +56,7 @@ export default function Drivers() {
       if (statusFilter === "champion" && !CHAMPION_DRIVER_IDS.has(d.driverId)) return false;
 
       if (decadeFilter) {
+        if (!d.dateOfBirth) return false;
         const birthYear = parseInt(d.dateOfBirth.slice(0, 4), 10);
         const decade = Math.floor(birthYear / 10) * 10;
         if (decade.toString() !== decadeFilter) return false;
@@ -68,10 +69,12 @@ export default function Drivers() {
   const decades = useMemo(() => {
     if (!data) return [];
     const set = new Set(
-      data.drivers.map((d) => {
-        const y = parseInt(d.dateOfBirth.slice(0, 4), 10);
-        return (Math.floor(y / 10) * 10).toString();
-      })
+      data.drivers
+        .filter((d) => d.dateOfBirth)
+        .map((d) => {
+          const y = parseInt(d.dateOfBirth.slice(0, 4), 10);
+          return (Math.floor(y / 10) * 10).toString();
+        })
     );
     return [...set].sort();
   }, [data]);
