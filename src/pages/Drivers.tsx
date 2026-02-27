@@ -32,7 +32,7 @@ export default function Drivers() {
 
   const nationalities = useMemo(() => {
     if (!data) return [];
-    const set = new Set(data.drivers.map((d) => d.nationality));
+    const set = new Set(data.drivers.map((d) => d.nationality).filter(Boolean));
     return [...set].sort();
   }, [data]);
 
@@ -42,9 +42,9 @@ export default function Drivers() {
       if (search) {
         const q = search.toLowerCase();
         const matches =
-          d.givenName.toLowerCase().includes(q) ||
-          d.familyName.toLowerCase().includes(q) ||
-          d.nationality.toLowerCase().includes(q) ||
+          d.givenName?.toLowerCase().includes(q) ||
+          d.familyName?.toLowerCase().includes(q) ||
+          (d.nationality?.toLowerCase().includes(q) ?? false) ||
           (d.code?.toLowerCase().includes(q) ?? false) ||
           (d.permanentNumber?.includes(q) ?? false);
         if (!matches) return false;
