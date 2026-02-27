@@ -124,6 +124,13 @@ export async function getDriverSeasons(driverId: string): Promise<Season[]> {
   return data.SeasonTable.Seasons;
 }
 
+export async function getCurrentDriverIds(): Promise<Set<string>> {
+  const data = await fetchApi<{ DriverTable: { Drivers: Driver[] } }>(
+    "/current/drivers.json"
+  );
+  return new Set(data.DriverTable.Drivers.map((d) => d.driverId));
+}
+
 export interface DriverStats {
   races: number;
   wins: number;

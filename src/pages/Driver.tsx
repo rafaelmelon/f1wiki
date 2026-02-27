@@ -1,8 +1,9 @@
 import { useParams, Link } from "react-router-dom";
-import { getDriver, getDriverSeasons, getDriverStats } from "../lib/api";
+import { getDriver, getDriverSeasons, getDriverStats, getCurrentDriverIds } from "../lib/api";
 import type { Driver as DriverType, Season } from "../lib/types";
 import type { DriverStats } from "../lib/api";
 import { useFetch } from "../lib/useFetch";
+import { getChampionRecord } from "../lib/champions";
 import Loader from "../components/Loader";
 import ErrorMessage from "../components/ErrorMessage";
 import PinButton from "../components/PinButton";
@@ -31,9 +32,12 @@ export default function Driver() {
     () => getDriverStats(driverId!),
     [driverId]
   );
+  const { data: activeIds } = useFetch<Set<string>>(getCurrentDriverIds);
 
   const loading = dl || sl;
   const error = de || se;
+  const champion = driverId ? getChampionRecord(driverId) : undefined;
+  const isActive = activeIds?.has(driverId!) ?? false;
 
   return (
     <div>
@@ -71,6 +75,18 @@ export default function Driver() {
                     <span>&middot;</span>
                     <span>{driver.code}</span>
                   </>
+                )}
+              </div>
+              <div className="mt-3 flex flex-wrap gap-2">
+                {isActive && (
+                  <span className="rounded-full bg-emerald-900/50 px-2.5 py-0.5 text-xs font-semibold text-emerald-400 border border-emerald-800">
+                    Active
+                  </span>
+                )}
+                {champion && (
+                  <span className="rounded-full bg-amber-900/50 px-2.5 py-0.5 text-xs font-semibold text-amber-400 border border-amber-800">
+                    {champion.titles}x World Champion ({champion.years.join(", ")})
+                  </span>
                 )}
               </div>
               <a
